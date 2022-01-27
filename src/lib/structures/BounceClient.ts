@@ -6,6 +6,7 @@ import glob from 'glob';
 import { promisify } from "util";
 import { Manager, Payload } from "erela.js";
 import { ErelaEvents } from "../typings/ErelaEvent";
+import { root } from '../../index';
 
 
 const globPromise = promisify(glob);
@@ -41,7 +42,7 @@ export class BounceClient extends Client {
     }
 
     async importFile(file: string) {
-        return (await import(file))?.default;
+        return (require(file))?.default;
     }
     
     async registerCommands({commands, guildId}: RegisterCommandsOptions) {
@@ -70,19 +71,14 @@ export class BounceClient extends Client {
     }
 
     async loadEvents() {
-        const clientEventFiles = await globPromise(`${__dirname}/../../events/!(erela)*/*.js`);
-        const erelaEventFiles = await globPromise(`${__dirname}/../../events/erela/*.js`);
-        console.log(`Erela Event Files: ${erelaEventFiles}`);
-        for(let file of clientEventFiles) {
-            const event: ClientEvent<keyof ClientEvents> = await this.importFile(file);
-            this.on(event.name, event.run);
-        }
-        for(let file of erelaEventFiles) {
-            console.log(`Erela event file (unopened): ${file}`)
-            console.log(`Erela event file (opened): ${await this.importFile(file)}`)
-            const event: ErelaEvent<keyof ErelaEvents> = await this.importFile(file);
-            //@ts-ignore
-            this.manager.on(event.name, event.run);
+        const eventFiles = await globPromise(`${root}/events/*/*.js`);
+        for(let file of eventFiles) {
+            const event = await this.importFile(file);
+            if(event instanceof ClientEvent) {
+                this.on(event.name, event.run);
+            } else if (event instanceof ErelaEvent) {
+                this.manager.on(event.name, event.run);
+            }
         }
     }
 
