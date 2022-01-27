@@ -1,4 +1,3 @@
-import { User } from "discord.js";
 import { Track } from "erela.js";
 
 export type ColoursType = {
@@ -11,7 +10,7 @@ export type ColoursType = {
 export type MusicEmbedOptions = {
     title: string
     duration: number
-    requester: User
+    requester: unknown
     thumbnail?: string
     uri: string
 }
