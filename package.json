@@ -1,0 +1,28 @@
+{
+  "name": "bouce-detritus",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000B\u0000o\u0000u\u0000n\u0000c\u0000e\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlphaLupine/Bounce.git"
+  },
+  "author": "AlphaLupine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlphaLupine/Bounce/issues"
+  },
+  "homepage": "https://github.com/AlphaLupine/Bounce#readme",
+  "dependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/node": "^17.0.12",
+    "discord.js": "^13.6.0",
+    "dotenv": "^14.3.2",
+    "erela.js": "^2.3.3",
+    "glob": "^7.2.0",
+    "ts-node": "^10.4.0"
+  }
+}
