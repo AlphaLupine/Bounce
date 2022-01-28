@@ -5,7 +5,6 @@ import { ClientEvent, ErelaEvent } from "../structures/Event";
 import glob from 'glob';
 import { promisify } from "util";
 import { Manager, Payload } from "erela.js";
-import { ErelaEvents } from "../typings/ErelaEvent";
 import { root } from '../../index';
 
 
@@ -28,7 +27,7 @@ export class BounceClient extends Client {
                 password: "youshallnotpass",
                 port: 2333
             }],
-            send: (id:string, payload: Payload) => {
+            send: (id:string, payload) => {
                 const guild = this.guilds.cache.get(id);
                 if(guild) guild.shard.send(payload);
             }
