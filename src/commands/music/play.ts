@@ -1,7 +1,7 @@
 import { messageEmbed } from "../../index";
 import { Command } from "../../lib/structures/Command";
 import { msConversion, validateMusicCommandConditions } from "../../lib/utilities/Functions";
-import { ExtendedInteraction } from "../../lib/typings/Command";
+import { ExtendedInteraction } from "../../lib/typings/ExtendedInteraction";
 import { SearchResult } from "erela.js";
 import { GuildMember } from "discord.js";
 

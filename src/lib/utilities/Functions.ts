@@ -2,7 +2,7 @@ import { CommandInteraction } from "discord.js";
 import { Player } from "erela.js";
 import { messageEmbed } from "../../index";
 import { BounceClient } from "../structures/BounceClient";
-import { ExtendedInteraction } from "../typings/Command";
+import { ExtendedInteraction } from "../typings/ExtendedInteraction";
 
 export function msConversion(ms: number) {
     let hours: any = Math.floor((ms / (1000 * 60 * 60)) % 24);
@@ -29,5 +29,6 @@ export function validateMusicCommandConditions(client: BounceClient, interaction
     }
 
     if(!player) return interaction.reply({embeds: [new messageEmbed().setDescription('There is no player in this guild to use this command')], ephemeral: true});
+    if(!player.queue[0]) return interaction.reply({embeds: [new messageEmbed().setDescription('There are no songs left to use this command')], ephemeral: true});
     return true;
 }
