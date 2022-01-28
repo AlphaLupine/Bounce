@@ -1,4 +1,4 @@
-import { ApplicationCommandDataResolvable, Client, ClientEvents, Collection, Intents, } from "discord.js";
+import { ApplicationCommandDataResolvable, Client, ClientEvents, Collection, Intents, MessageButton, } from "discord.js";
 import { CommandType } from "../typings/Command";
 import { RegisterCommandsOptions } from "../typings/Client";
 import { ClientEvent, ErelaEvent } from "../structures/Event";
@@ -6,7 +6,7 @@ import glob from 'glob';
 import { promisify } from "util";
 import { Manager, Payload } from "erela.js";
 import { root } from '../../index';
-
+import { ButtonType } from "../typings/Button";
 
 const globPromise = promisify(glob);
 
@@ -15,6 +15,7 @@ export class BounceClient extends Client {
     commands: Collection<string, CommandType> = new Collection();
     resetCommands?: Boolean;
     manager: Manager;
+    buttons: Collection<string, ButtonType> = new Collection();
 
     constructor(resetCommands: Boolean = false){
         super({
@@ -38,6 +39,7 @@ export class BounceClient extends Client {
         this.loadEvents();
         await this.login(process.env.TOKEN);
         this.loadCommands();
+        this.loadButtons();
     }
 
     async importFile(file: string) {
@@ -78,6 +80,14 @@ export class BounceClient extends Client {
             } else if (event instanceof ErelaEvent) {
                 this.manager.on(event.name, event.run);
             }
+        }
+    }
+
+    async loadButtons() {
+        const buttonFiles = await globPromise(`${root}/components/buttons/*/*.js`);
+        for(let file of buttonFiles) {
+            const button: ButtonType = await this.importFile(file);
+            this.buttons.set(button.name, button);
         }
     }
 
