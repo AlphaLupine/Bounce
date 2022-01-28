@@ -9,8 +9,8 @@ export type ColoursType = {
 
 export type MusicEmbedOptions = {
     title: string
-    duration: number
+    duration: string
     requester: unknown
-    thumbnail?: string
+    thumbnail: string | null
     uri: string
 }
