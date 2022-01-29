@@ -5,7 +5,7 @@ import { ClientEvent, ErelaEvent } from "../structures/Event";
 import glob from 'glob';
 import { promisify } from "util";
 import { Manager, Payload } from "erela.js";
-import { root } from '../../index';
+import { logger, root } from '../../index';
 import { ButtonType } from "../typings/Button";
 
 const globPromise = promisify(glob);
@@ -36,13 +36,14 @@ export class BounceClient extends Client {
     }
 
     async start() {
-        this.loadEvents();
+        await this.loadEvents();
         await this.login(process.env.TOKEN);
-        this.loadCommands();
-        this.loadButtons();
+        await this.loadCommands();
+        await this.loadButtons();
     }
 
     async importFile(file: string) {
+        logger.info(`Loading file: ${file}`)
         return (require(file))?.default;
     }
     
@@ -57,9 +58,11 @@ export class BounceClient extends Client {
     async loadCommands() {
         const Commands: ApplicationCommandDataResolvable[] = [];
         const commandFiles = await globPromise(`${__dirname}/../../commands/*/*.js`);
+        logger.info('Loading Commands')
         for(let file of commandFiles) {
             const command: CommandType = await this.importFile(file);
             if(!command.name) return;
+            logger.info(`Successfully loaded command: ${file}`)
 
             this.commands.set(command.name, command);
             Commands.push(command);
@@ -73,8 +76,10 @@ export class BounceClient extends Client {
 
     async loadEvents() {
         const eventFiles = await globPromise(`${root}/events/*/*.js`);
+        logger.info('Loading Events')
         for(let file of eventFiles) {
             const event = await this.importFile(file);
+            logger.info(`Successfully loaded event: ${file}`)
             if(event instanceof ClientEvent) {
                 this.on(event.name, event.run);
             } else if (event instanceof ErelaEvent) {
@@ -85,8 +90,10 @@ export class BounceClient extends Client {
 
     async loadButtons() {
         const buttonFiles = await globPromise(`${root}/components/buttons/*/*.js`);
+        logger.info('Loading Buttons')
         for(let file of buttonFiles) {
             const button: ButtonType = await this.importFile(file);
+            logger.info(`Successfully loaded button: ${file}`)
             this.buttons.set(button.name, button);
         }
     }

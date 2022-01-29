@@ -4,6 +4,7 @@ import { BounceClient } from "../structures/BounceClient";
 interface RunOptions {
     client: BounceClient,
     interaction: ButtonInteraction,
+    data?: string[]; 
 }
 
 type RunFunction = (options: RunOptions) => any;

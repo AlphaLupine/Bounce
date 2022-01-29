@@ -1,10 +1,11 @@
 import { CommandInteractionOptionResolver } from "discord.js";
-import { client } from "../../index";
+import { client, logger } from "../../index";
 import { ClientEvent } from "../../lib/structures/Event";
 
 
 export default new ClientEvent('interactionCreate', async (interaction) => {
     if(interaction.isCommand()) {
+        logger.info(`New interaction created at ${interaction.guild?.name}`)
         const command = client.commands.get(interaction.commandName);
         return command?.run({
             args: interaction.options as CommandInteractionOptionResolver,
@@ -13,8 +14,9 @@ export default new ClientEvent('interactionCreate', async (interaction) => {
         });
     }
     if(interaction.isButton()) {
-        const button = client.buttons.get(interaction.customId)
-        return button?.run({client, interaction})
+        const toGet = (interaction.customId).split('|')
+        const button = client.buttons.get(toGet[0])
+        return button?.run({client, interaction, data: toGet})
     }
     return;
 })

@@ -13,17 +13,17 @@ export function msConversion(ms: number) {
     minutes = (minutes < 10) ? "0" + minutes : minutes
     seconds = (seconds < 10) ? "0" + seconds : seconds
 
-    const concatenatedTime: string = `${hours === '00' ? '' : `${hours}:`}${minutes === '00' ? 'Seconds: ' : `${minutes}:`}${seconds}`;
+    const concatenatedTime: string = `${hours === '00' ? '' : `${hours}:`}${minutes === '00' ? '00: ' : `${minutes}:`}${seconds}`;
     return concatenatedTime;
 
 }
 //Get player; if exists check if user is in the same vc; if it does not exist check if user is in a VC and return the voicechannel id
 export function validateMusicCommandConditions(client: BounceClient, interaction: ExtendedInteraction): Promise<void> | Boolean | string {
     const player: Player | undefined = client.manager.get(interaction.guildId!);
+    if(!interaction.member.voice.channel) return interaction.reply({embeds: [new messageEmbed().setDescription('You must be in a voice channel to use this command')], ephemeral: true});
     if(player && interaction.member.voice.channelId != player.voiceChannel) {
         return interaction.reply({embeds: [new messageEmbed().setDescription('You must be in the same VC to use this command')], ephemeral: true});
     }
-    if(!interaction.member.voice.channel) return interaction.reply({embeds: [new messageEmbed().setDescription('You must be in a voice channel to use this command')], ephemeral: true});
     if(!player && interaction.commandName === 'play') {
         return interaction.member.voice.channel.id;
     }
@@ -31,4 +31,9 @@ export function validateMusicCommandConditions(client: BounceClient, interaction
     if(!player) return interaction.reply({embeds: [new messageEmbed().setDescription('There is no player in this guild to use this command')], ephemeral: true});
     if(!player.queue[0]) return interaction.reply({embeds: [new messageEmbed().setDescription('There are no songs left to use this command')], ephemeral: true});
     return true;
+}
+
+export function generateDurationBar(position: number, duration: number) {
+    const pieceMultiplier = Math.floor((position / duration) * 10);
+    return (`${'▬'.repeat(pieceMultiplier)}💿${'▬'.repeat(10 - pieceMultiplier)} [${msConversion(position)} / ${msConversion(duration)}]`);
 }
