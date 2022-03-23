@@ -6,6 +6,7 @@ export default new Command({
     name: 'reload',
     description: 'Reloads all commands for the bot',
     run: async({client, interaction}) => {
+        if(process.env.DEVELOPER_ID !== interaction.user.id) return;
         logger.debug('Attempting command reload');
         try{
             client.commands.clear();
