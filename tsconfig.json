@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "experimentalDecorators": true,
+        "target": "ESNext",
+        "module": "commonjs",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "removeComments": true,
+        "strict": true,
+        "noImplicitAny": false,
+        "esModuleInterop": true,
+        "baseUrl": "./src",
+        "resolveJsonModule": true,
+        "paths": {
+            "@structures/*": ["lib/structures/*"],
+            "@typings/*": ["lib/typings/*"]
+        },
+        "typeRoots": ["./types"]
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+}
