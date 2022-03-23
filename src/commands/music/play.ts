@@ -36,7 +36,7 @@ export default new Command({
                 switch(res.loadType) {
                     case 'TRACK_LOADED':
                         player.queue.add(res.tracks[0]);
-
+                        console.log('track')
                         const TLembed = new messageEmbed().music({
                             title: res.tracks[0].title,
                             duration: msConversion(res.tracks[0].duration),
@@ -51,6 +51,7 @@ export default new Command({
                         if(!player.playing && !player.paused) player.play();
                     break;
                     case 'PLAYLIST_LOADED':
+                        console.log('play')
                         const url = args.data[0].value as string;
                         const queueSize = player.queue.size;
                         player.queue.add(res.tracks);
@@ -67,6 +68,7 @@ export default new Command({
                         if (!player.playing && !player.paused) player.play();
                     break;
                     case 'SEARCH_RESULT':
+                        console.log('search')
                         const track = res.tracks[0];
                         player.queue.add(track);
 

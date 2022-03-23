@@ -1,0 +1,2 @@
+2022-03-09 03:05:10.719  INFO 41376 --- [XNIO-1 I/O-6] lavalink.server.io.SocketServer          : Connection closed from /127.0.0.1:52122 -- CloseStatus[code=1006, reason=]
+2022-03-09 03:05:10.731  INFO 41376 --- [XNIO-1 I/O-6] lavalink.server.io.SocketContext         : Shutting down 0 playing players.

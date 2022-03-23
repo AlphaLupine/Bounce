@@ -32,6 +32,7 @@ export default new Command({
                                 `${player?.playing ? Emojis.music.resume : Emojis.music.pause} Currently Playing:`,
                                 `Track: [${track?.title}](${track?.uri})`,
                                 generateDurationBar(player!.position, track!.duration!),
+                                `Is repeating: ${player?.trackRepeat}`,
                                 `Requested by: ${track?.requester}`
                             ].join('\n')
                         )

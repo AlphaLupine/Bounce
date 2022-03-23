@@ -1,10 +1,10 @@
-import { ApplicationCommandDataResolvable, Client, ClientEvents, Collection, Intents, MessageButton, } from "discord.js";
+import { ApplicationCommandDataResolvable, Client, Collection, Intents, } from "discord.js";
 import { CommandType } from "../typings/Command";
-import { RegisterCommandsOptions } from "../typings/Client";
+import { RegisterCommandsOptions, usedButtonCache } from "../typings/Client";
 import { ClientEvent, ErelaEvent } from "../structures/Event";
 import glob from 'glob';
 import { promisify } from "util";
-import { Manager, Payload } from "erela.js";
+import { Manager } from "erela.js";
 import { logger, root } from '../../index';
 import { ButtonType } from "../typings/Button";
 
@@ -16,12 +16,14 @@ export class BounceClient extends Client {
     resetCommands?: Boolean;
     manager: Manager;
     buttons: Collection<string, ButtonType> = new Collection();
+    usedButtonCache: Collection<string, usedButtonCache> = new Collection();
+    buttonCooldown: number
 
-    constructor(resetCommands: Boolean = false){
+    constructor(buttonCooldown: number = 5000){
         super({
             intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES]
         });
-
+        this.buttonCooldown = buttonCooldown;
         this.manager = new Manager({
             nodes: [{
                 host: "localhost",
@@ -31,7 +33,7 @@ export class BounceClient extends Client {
             send: (id:string, payload) => {
                 const guild = this.guilds.cache.get(id);
                 if(guild) guild.shard.send(payload);
-            }
+            },
         })
     }
 
@@ -69,7 +71,7 @@ export class BounceClient extends Client {
         }
         this.registerCommands({
             commands: Commands,
-            guildId: '933904253901217802'
+            guildId: '938866748881522800'
         });
 
     }

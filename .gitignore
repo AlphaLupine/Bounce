@@ -3,4 +3,4 @@ tsconfig.json
 .env
 node_modules
 dist
-lavalink
+.bat

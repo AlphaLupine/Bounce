@@ -24,12 +24,12 @@ export function validateMusicCommandConditions(client: BounceClient, interaction
     if(player && interaction.member.voice.channelId != player.voiceChannel) {
         return interaction.reply({embeds: [new messageEmbed().setDescription('You must be in the same VC to use this command')], ephemeral: true});
     }
-    if(!player && interaction.commandName === 'play') {
+    if(!player && interaction.commandName === 'play' || interaction.commandName === 'tts') {
         return interaction.member.voice.channel.id;
     }
 
     if(!player) return interaction.reply({embeds: [new messageEmbed().setDescription('There is no player in this guild to use this command')], ephemeral: true});
-    if(!player.queue[0]) return interaction.reply({embeds: [new messageEmbed().setDescription('There are no songs left to use this command')], ephemeral: true});
+    if(!player.queue.current) return interaction.reply({embeds: [new messageEmbed().setDescription('There are no songs left to use this command')], ephemeral: true});
     return true;
 }
 

@@ -8,5 +8,6 @@ export const logger = new Logger('main');
 
 export const root = __dirname;
 export const client = new BounceClient();
+require("./test");
 export const messageEmbed = BounceEmbed;
 client.start();
