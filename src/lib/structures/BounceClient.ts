@@ -26,9 +26,9 @@ export class BounceClient extends Client {
         this.buttonCooldown = buttonCooldown;
         this.manager = new Manager({
             nodes: [{
-                host: "localhost",
+                host: "0.0.0.0",
                 password: "youshallnotpass",
-                port: 2333
+                port: 80
             }],
             send: (id:string, payload) => {
                 const guild = this.guilds.cache.get(id);
@@ -71,7 +71,7 @@ export class BounceClient extends Client {
         }
         this.registerCommands({
             commands: Commands,
-            guildId: '938866748881522800'
+            //guildId: '938866748881522800'
         });
 
     }
