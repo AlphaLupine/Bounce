@@ -28,7 +28,7 @@ export class BounceClient extends Client {
             nodes: [{
                 host: "0.0.0.0",
                 password: process.env.LAVALINK_PASSWORD,
-                port: 80
+                port: 2333
             }],
             send: (id:string, payload) => {
                 const guild = this.guilds.cache.get(id);
