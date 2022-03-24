@@ -27,7 +27,7 @@ export class BounceClient extends Client {
         this.manager = new Manager({
             nodes: [{
                 host: "0.0.0.0",
-                password: "youshallnotpass",
+                password: process.env.LAVALINK_PASSWORD,
                 port: 80
             }],
             send: (id:string, payload) => {
