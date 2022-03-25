@@ -19,12 +19,14 @@ export function msConversion(ms: number) {
 }
 //Get player; if exists check if user is in the same vc; if it does not exist check if user is in a VC and return the voicechannel id
 export function validateMusicCommandConditions(client: BounceClient, interaction: ExtendedInteraction): Promise<void> | Boolean | string {
+    const player: Player | undefined = client.manager.get(interaction.guildId!);
+    if(!interaction.member.voice.channel) return interaction.reply({embeds: [new messageEmbed().setDescription('You must be in a voice channel to use this command')], ephemeral: true});
+    
     const boundChannel = client.musicChannelCache.get(interaction.guildId!);
     if(boundChannel!.id !== interaction.channelId) {
         return interaction.reply({embeds: [new messageEmbed().setDescription(`I am bound to ${boundChannel}`)], ephemeral: true});
     }
-    const player: Player | undefined = client.manager.get(interaction.guildId!);
-    if(!interaction.member.voice.channel) return interaction.reply({embeds: [new messageEmbed().setDescription('You must be in a voice channel to use this command')], ephemeral: true});
+    
     if(player && interaction.member.voice.channelId != player.voiceChannel) {
         return interaction.reply({embeds: [new messageEmbed().setDescription('You must be in the same VC to use this command')], ephemeral: true});
     }

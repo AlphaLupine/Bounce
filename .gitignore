@@ -4,3 +4,4 @@ node_modules
 dist
 .bat
 lavalink/application.yml
+assets
