@@ -49,6 +49,10 @@ export class BounceClient extends Client {
         logger.info(`Loading file: ${file}`)
         return (require(file))?.default;
     }
+
+    async clearGuildCommands(guildId: string) {
+        this.guilds.cache.get(guildId)?.commands.set([]);
+    }
     
     async registerCommands({commands, guildId}: RegisterCommandsOptions) {
         if(guildId) {
