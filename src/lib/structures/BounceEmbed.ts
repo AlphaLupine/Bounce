@@ -7,7 +7,7 @@ import { Player } from "erela.js";
 export class BounceEmbed extends MessageEmbed {
     constructor(data = {}) {
         super(data);
-        this.setAuthor({name: client.user!.username/*, iconURL: client.user!.avatarURL()!*/})
+        this.setAuthor({name: client.user!.username, iconURL: client.user!.avatarURL()!})
         this.setColor(Colours.main as ColorResolvable)
     }
 
