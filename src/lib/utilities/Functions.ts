@@ -43,3 +43,7 @@ export function generateDurationBar(position: number, duration: number) {
     const pieceMultiplier = Math.floor((position / duration) * 10);
     return (`${'▬'.repeat(pieceMultiplier)}💿${'▬'.repeat(10 - pieceMultiplier)} [${msConversion(position)} / ${msConversion(duration)}]`);
 }
+
+export function createCodeBlock(text: string) {
+    return ['```js', text, '```'].join('\n');
+}
