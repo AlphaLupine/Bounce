@@ -1,4 +1,4 @@
-import { ApplicationCommandDataResolvable, Client, Collection, Intents, } from "discord.js";
+import { ApplicationCommandDataResolvable, Client, Collection, Guild, Intents, TextChannel, } from "discord.js";
 import { CommandType } from "../typings/Command";
 import { RegisterCommandsOptions, usedButtonCache } from "../typings/Client";
 import { ClientEvent, ErelaEvent } from "../structures/Event";
@@ -18,6 +18,7 @@ export class BounceClient extends Client {
     buttons: Collection<string, ButtonType> = new Collection();
     usedButtonCache: Collection<string, usedButtonCache> = new Collection();
     buttonCooldown: number
+    musicChannelCache: Collection<string, TextChannel> = new Collection(); // <GuildID, TextChannel>
 
     constructor(buttonCooldown: number = 5000){
         super({

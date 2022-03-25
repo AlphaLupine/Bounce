@@ -3,7 +3,7 @@ import { Command } from "../../lib/structures/Command";
 import { msConversion, validateMusicCommandConditions } from "../../lib/utilities/Functions";
 import { ExtendedInteraction } from "../../lib/typings/ExtendedInteraction";
 import { SearchResult } from "erela.js";
-import { GuildMember } from "discord.js";
+import { GuildMember, TextChannel } from "discord.js";
 
 export default new Command({
     name: 'play',
@@ -17,6 +17,12 @@ export default new Command({
         }
     ],
     run: async({client, interaction, args}) => {
+
+        const boundChannel = client.musicChannelCache.get(interaction.guildId!);
+        if(!boundChannel) {
+            client.musicChannelCache.set(interaction.guildId!, interaction.channel as TextChannel);
+        }
+
         const extendedInteraction = interaction as ExtendedInteraction;
         const validate = await validateMusicCommandConditions(client, extendedInteraction);
         const guildMember = interaction.member as GuildMember;
