@@ -22,7 +22,7 @@ export default new Command({
         if(validate) {
             //const paginator = new Paginator({pages: pages, timeouAt: 30000, interaction: extendedInteraction});
             let paginator = client.paginatorCache.get(player!);
-            if(!paginator) paginator = new Paginator({pages: pages, timeout: 5000, client: client, player: player!, interaction: extendedInteraction});
+            if(!paginator) paginator = new Paginator({pages: pages, timeout: 60000, client: client, player: player!, interaction: extendedInteraction});
             client.paginatorCache.set(player!, paginator!);
             await interaction.reply('Generating Queue');
             paginator!.displayPage();
