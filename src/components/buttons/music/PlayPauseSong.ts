@@ -14,24 +14,24 @@ export default new Button({
         const validate = await validateMusicCommandConditions(client, (interaction) as unknown as ExtendedInteraction)
         if(validate) { 
 
-            let playerPauseState = player.paused;
-            player.pause(!playerPauseState)
-            const track = player.queue.current;
+            let playerPauseState = player!.paused;
+            player!.pause(!playerPauseState)
+            const track = player!.queue.current;
 
             const row = new MessageActionRow()
             .addComponents(
                 new MessageButton()
-                    .setCustomId(`skip-song|${track.uri}`)
+                    .setCustomId(`skip-song|${track!.uri}`)
                     .setEmoji(Emojis.music.skip)
                     .setStyle('PRIMARY'),
 
                 new MessageButton()
-                    .setCustomId(`play-pause|${track.uri}`)
+                    .setCustomId(`play-pause|${track!.uri}`)
                     .setEmoji(playerPauseState ? Emojis.music.pause : Emojis.music.resume)
                     .setStyle('PRIMARY'),
 
                 new MessageButton()
-                    .setCustomId(`destroy-player|${track.uri}`)
+                    .setCustomId(`destroy-player|${track!.uri}`)
                     .setEmoji(Emojis.music.destroy)
                     .setStyle('DANGER')
             )

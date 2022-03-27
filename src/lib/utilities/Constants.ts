@@ -17,6 +17,9 @@ export const Emojis = {
         resume: '<:resume_white:936799262635859998>',
         close: '<:remove_white:936817436475420693>',
         destroy: '<:disconnect_white:936816124564242453>',
-        refresh: '<:refresh_white:937024706039664681>'
+        refresh: '<:refresh_white:937024706039664681>',
+        nextPage: '<:next_page:957667214167777330>',
+        prevPage: '<:prev_page:957667528677675028>',
+        stop: '<:stop_white:957735840212201542>'
     }
 }

@@ -4,9 +4,10 @@ import { RegisterCommandsOptions, usedButtonCache } from "../typings/Client";
 import { ClientEvent, ErelaEvent } from "../structures/Event";
 import glob from 'glob';
 import { promisify } from "util";
-import { Manager } from "erela.js";
+import { Manager, Player } from "erela.js";
 import { logger, root } from '../../index';
 import { ButtonType } from "../typings/Button";
+import { Paginator } from "../utilities/Paginator";
 
 const globPromise = promisify(glob);
 
@@ -19,6 +20,7 @@ export class BounceClient extends Client {
     usedButtonCache: Collection<string, usedButtonCache> = new Collection();
     buttonCooldown: number
     musicChannelCache: Collection<string, TextChannel> = new Collection(); // <GuildID, TextChannel>
+    paginatorCache: Collection<Player, Paginator> = new Collection();
 
     constructor(buttonCooldown: number = 5000){
         super({
@@ -76,7 +78,7 @@ export class BounceClient extends Client {
         }
         this.registerCommands({
             commands: Commands,
-            //guildId: '938866748881522800'
+            guildId: '933904253901217802'
         });
 
     }

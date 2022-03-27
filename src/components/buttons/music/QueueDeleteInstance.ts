@@ -4,17 +4,17 @@ import { Button } from "../../../lib/structures/Button";
 import { ExtendedInteraction } from "../../../lib/typings/ExtendedInteraction";
 import { MessageActionRow, MessageButton } from "discord.js";
 import { Emojis } from "../../../lib/utilities/Constants";
+import { Paginator } from "../../../lib/utilities/Paginator";
 
 export default new Button({
-    name: 'destroy-player',
+    name: 'queue-delete-instance',
     run: async({client, interaction, data}) => {
         const player = client.manager.get(interaction.guildId!);
-        const url = data![1];
-        if(url !== player?.queue.current?.uri) return interaction.reply({embeds: [new messageEmbed().setDescription('This song is not playing anymore')], ephemeral: true})
+        const paginator = client.paginatorCache.get(player!);
         const validate = await validateMusicCommandConditions(client, (interaction) as unknown as ExtendedInteraction)
         if(validate) {
-            player!.manager.emit('queueEnd', player);
-            return interaction.reply({embeds: [new messageEmbed().setDescription('You destroyed the player')], ephemeral: true})
+            interaction.deleteReply();
+            client.paginatorCache.delete(player!);
         }
 
         return;

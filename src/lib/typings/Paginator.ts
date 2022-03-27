@@ -1,10 +1,13 @@
+import { Paginator } from "../utilities/Paginator";
 import { BounceEmbed } from "../structures/BounceEmbed";
-import { Button } from "../structures/Button";
 import { ExtendedInteraction } from "./ExtendedInteraction";
+import { BounceClient } from "../structures/BounceClient";
+import { Player } from "erela.js";
 
 export interface PaginatorOptions {
     pages: BounceEmbed[],
-    buttons: Button[],
     timeout: number,
+    client: BounceClient,
+    player: Player
     interaction: ExtendedInteraction
 }
