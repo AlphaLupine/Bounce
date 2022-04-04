@@ -4,6 +4,8 @@ import { ClientEvent } from "../../lib/structures/Event";
 
 
 export default new ClientEvent('interactionCreate', async (interaction) => {
+    if(interaction.channel?.type === "DM") return;
+    if(client.inMaintenance  && interaction.user.id !== "284442265596854272") return interaction.channel?.send(`${client.status}: ${interaction.user}, during this time, Bounce will not respond to commands`);
     if(interaction.isCommand()) {
         logger.info(`New interaction created at ${interaction.guild?.name}`)
         const command = client.commands.get(interaction.commandName);

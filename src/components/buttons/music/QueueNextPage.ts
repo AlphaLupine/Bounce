@@ -10,11 +10,11 @@ export default new Button({
     name: 'queue-next-page',
     run: async({client, interaction, data}) => {
         const player = client.manager.get(interaction.guildId!);
+        if(!player) return //Incase bot is restarted before queue buttons are locked down
         const paginator = client.paginatorCache.get(player!);
         const validate = await validateMusicCommandConditions(client, (interaction) as unknown as ExtendedInteraction)
         if(validate) {
-            paginator!.incrementPage();
-            
+            paginator?.incrementPage();
         }
 
         return;

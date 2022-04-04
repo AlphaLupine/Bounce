@@ -39,6 +39,7 @@ export default new Command({
                     textChannel: interaction.channelId
                 });
                 player.connect();
+                console.log(res.loadType);
                 switch(res.loadType) {
                     case 'TRACK_LOADED':
                         player.queue.add(res.tracks[0]);

@@ -8,6 +8,7 @@ import { Manager, Player } from "erela.js";
 import { logger, root } from '../../index';
 import { ButtonType } from "../typings/Button";
 import { Paginator } from "../utilities/Paginator";
+import { Status, Emojis, Statuses } from "../utilities/Constants";
 
 const globPromise = promisify(glob);
 
@@ -21,6 +22,8 @@ export class BounceClient extends Client {
     buttonCooldown: number
     musicChannelCache: Collection<string, TextChannel> = new Collection(); // <GuildID, TextChannel>
     paginatorCache: Collection<Player, Paginator> = new Collection();
+    status: string;
+    inMaintenance: boolean;
 
     constructor(buttonCooldown: number = 5000){
         super({
@@ -38,6 +41,8 @@ export class BounceClient extends Client {
                 if(guild) guild.shard.send(payload);
             },
         })
+        this.status = `${Emojis.status[Status.Online]} ${Statuses[Status.Online]}`
+        this.inMaintenance = false;
     }
 
     async start() {
@@ -45,6 +50,23 @@ export class BounceClient extends Client {
         await this.login(process.env.TOKEN);
         await this.loadCommands();
         await this.loadButtons();
+    }
+
+    async setStatus(status: "Online" | "Maintenance" | "Unstable") {
+        switch (status) {
+            case "Online":
+                this.status = `${Emojis.status[Status.Online]} ${Statuses[Status.Online]}`;
+                this.inMaintenance = false;
+            break
+            case "Maintenance":
+                this.status = `${Emojis.status[Status.Maintenace]} ${Statuses[Status.Maintenace]}`;
+                this.inMaintenance = true;
+            break
+            case "Unstable":
+                this.status = `${Emojis.status[Status.Unstable]} ${Statuses[Status.Unstable]}`;
+                this.inMaintenance = false;
+            break
+        }
     }
 
     async importFile(file: string) {

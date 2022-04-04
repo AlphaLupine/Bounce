@@ -1,9 +1,10 @@
-import { CommandInteraction, MessageContextMenuInteraction } from "discord.js";
+import { CommandInteraction, MessageContextMenuInteraction, Options } from "discord.js";
 import { Player, Track } from "erela.js";
 import { messageEmbed } from "../../index";
 import { BounceEmbed } from "../structures/BounceEmbed";
 import { BounceClient } from "../structures/BounceClient";
 import { ExtendedInteraction } from "../typings/ExtendedInteraction";
+import os from "os";
 
 //Returns ms in a human-readable format
 export function msConversion(ms: number) {

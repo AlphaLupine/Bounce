@@ -35,6 +35,15 @@ export class Paginator {
         this.displayPage();
     }
 
+    public showLastPage() {
+        let page = this.getCurrentPage();
+        if(page === this.pages.length - 1) {
+            return
+        }
+        page = this.setCurrentPage(true, (this.pages.length - 1) - page);
+        this.displayPage();
+    }
+
     public decrementPage() {
         let page = this.getCurrentPage();
         if(page === 0) {
@@ -44,9 +53,24 @@ export class Paginator {
         this.displayPage();
     }
 
+    public showFirstPage() {
+        let page = this.getCurrentPage();
+        if(page === 0) {
+            return
+        }
+        page = this.setCurrentPage(false, page);
+        this.displayPage();
+    }
+
     public displayPage(disableButtons = false) {
         const row = new MessageActionRow()
                 .addComponents(
+                    new MessageButton()
+                        .setCustomId(`queue-first-page`)
+                        .setEmoji(Emojis.music.skipToStart)
+                        .setStyle('PRIMARY')
+                        .setDisabled(disableButtons),
+
                     new MessageButton()
                         .setCustomId(`queue-prev-page`)
                         .setEmoji(Emojis.music.prevPage)
@@ -64,20 +88,26 @@ export class Paginator {
                         .setEmoji(Emojis.music.nextPage)
                         .setStyle('PRIMARY')
                         .setDisabled(disableButtons),
+
+                    new MessageButton()
+                        .setCustomId(`queue-last-page`)
+                        .setEmoji(Emojis.music.skipToEnd)
+                        .setStyle('PRIMARY')
+                        .setDisabled(disableButtons),
                 );
 
-        this.interaction.editReply({embeds: [this.pages[this.currentPage]], components: [row]});
+        this.interaction.editReply({embeds: [this.pages[this.currentPage].setFooter({text: `${this.getCurrentPage() + 1}/${this.pages.length}`})], components: [row]});
     }
 
     private getCurrentPage(): number {
         return this.currentPage;
     }
 
-    private setCurrentPage(isIncrement: boolean): number {
+    private setCurrentPage(isIncrement: boolean, value: number = 1): number {
         if(isIncrement) {
-            return this.currentPage +=1;
+            return this.currentPage +=value;
         }
-        return this.currentPage -=1;
+        return this.currentPage -=value;
     }
 
     public destroyInstance(client: BounceClient, player: Player) {
